@@ -178,4 +178,4 @@ More things to try:
 
 ## What's missing
 
-The agent can run shell commands, which technically means it can do anything — `cat` a file, `sed` an edit. But going through a shell for file work is clumsy and unsafe, and nothing stops it from wandering outside your project directory. The next phase gives it proper file tools with path sandboxing.
+The agent can run shell commands, which technically means it can do anything — `cat` a file, `sed` an edit. But going through a shell for file work is clumsy and unsafe, and nothing stops it from wandering outside your project directory. [Phase 3](../phase-3-file-tools/) gives it proper file tools with path sandboxing.
