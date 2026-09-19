@@ -51,9 +51,9 @@ Each folder runs on its own and has its own README with the full walkthrough.
 | **2** | [`phase-2-agent-loop`](phase-2-agent-loop/) | The agent loop, tool registry, bash tool, safety guards | 1 |
 | **3** | [`phase-3-file-tools`](phase-3-file-tools/) | File read/write/edit, glob/grep, path sandboxing | 6 |
 | **4** | [`phase-4-smart-context`](phase-4-smart-context/) | Three-layer context compression, project instructions file | 7 |
-| **5** | *planned* | Dynamic skill loading | 8 |
-| **6** | *planned* | Task list with dependencies | 9 |
-| **7** | *planned* | Subagents with isolated context | 10 |
+| **5** | [`phase-5-skills`](phase-5-skills/) | Dynamic skill loading | 8 |
+| **6** | [`phase-6-planning`](phase-6-planning/) | Task list with dependencies | 9 |
+| **7** | [`phase-7-subagents`](phase-7-subagents/) | Subagents with isolated context | 10 |
 | **8** | *planned* | Non-blocking background subagents | 12 |
 | **9** | *planned* | Named teammates with memory across tasks | 13 |
 | **10** | *planned* | Teammates pulling from a shared queue | 13 |

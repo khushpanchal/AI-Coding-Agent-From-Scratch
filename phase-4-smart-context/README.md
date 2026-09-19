@@ -181,4 +181,4 @@ PYTHONPATH=/path/to/phase-4-smart-context \
 
 ## What's missing
 
-`AGENTS.md` has the same problem it solved: it grows. Every rule you add costs tokens on every call, forever, whether or not it's relevant to what you're doing right now. The next phase splits that into two layers — always-loaded names, on-demand bodies — which is what skills are.
+`AGENTS.md` has the same problem it solved: it grows. Every rule you add costs tokens on every call, forever, whether or not it's relevant to what you're doing right now. [Phase 5](../phase-5-skills/) splits that into two layers — always-loaded names, on-demand bodies — which is what skills are.
