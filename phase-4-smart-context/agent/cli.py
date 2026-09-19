@@ -5,7 +5,7 @@ import sys
 from agent.core import inspector
 from agent.core.config import get_config
 from agent.core.loop import agent_loop
-from agent.memory.claude_md import load_claude_md
+from agent.memory.agents_md import load_agents_md
 from agent.memory.compression import (
     COMPACT_SCHEMA,
     estimate_tokens,
@@ -85,10 +85,10 @@ def main():
     provider = get_provider(config)
     print_banner(provider.name)
 
-    claude_md = load_claude_md()
-    if claude_md:
-        system_prompt = SYSTEM_PROMPT + "\n\n" + claude_md
-        print(f"{DIM}Loaded CLAUDE.md project instructions.{RESET}")
+    agents_md = load_agents_md()
+    if agents_md:
+        system_prompt = SYSTEM_PROMPT + "\n\n" + agents_md
+        print(f"{DIM}Loaded AGENTS.md project instructions.{RESET}")
     else:
         system_prompt = SYSTEM_PROMPT
 

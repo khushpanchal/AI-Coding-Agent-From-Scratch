@@ -1,26 +1,26 @@
-"""CLAUDE.md loader — discovers and reads project instruction files.
+"""AGENTS.md loader — discovers and reads project instruction files.
 
-Walks up from the current working directory to find CLAUDE.md files at
+Walks up from the current working directory to find AGENTS.md files at
 multiple scopes.  All discovered files are concatenated and injected into
 the system prompt so the agent follows project-specific rules.
 
 Lookup order (all are loaded, nearest-first):
-    1. cwd/CLAUDE.md                — project-level
+    1. cwd/AGENTS.md                — project-level
     2. each parent up to filesystem root
-    3. ~/.claude/CLAUDE.md          — user-level (global defaults)
+    3. ~/.agent/AGENTS.md           — user-level (global defaults)
 """
 
 from pathlib import Path
 
-_HOME_CLAUDE_MD = Path.home() / ".claude" / "CLAUDE.md"
+_HOME_AGENTS_MD = Path.home() / ".agent" / "AGENTS.md"
 
 
 def _walk_up(start: Path) -> list[Path]:
-    """Walk up from *start* collecting every CLAUDE.md found."""
+    """Walk up from *start* collecting every AGENTS.md found."""
     found: list[Path] = []
     current = start.resolve()
     while True:
-        candidate = current / "CLAUDE.md"
+        candidate = current / "AGENTS.md"
         if candidate.is_file():
             found.append(candidate)
         parent = current.parent
@@ -30,8 +30,8 @@ def _walk_up(start: Path) -> list[Path]:
     return found
 
 
-def load_claude_md(workspace: Path | None = None) -> str:
-    """Return the combined contents of all discovered CLAUDE.md files.
+def load_agents_md(workspace: Path | None = None) -> str:
+    """Return the combined contents of all discovered AGENTS.md files.
 
     Returns an empty string when no files are found.
     """
@@ -39,8 +39,8 @@ def load_claude_md(workspace: Path | None = None) -> str:
 
     paths = _walk_up(workspace)
 
-    if _HOME_CLAUDE_MD.is_file() and _HOME_CLAUDE_MD.resolve() not in {p.resolve() for p in paths}:
-        paths.append(_HOME_CLAUDE_MD)
+    if _HOME_AGENTS_MD.is_file() and _HOME_AGENTS_MD.resolve() not in {p.resolve() for p in paths}:
+        paths.append(_HOME_AGENTS_MD)
 
     if not paths:
         return ""

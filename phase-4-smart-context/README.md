@@ -10,21 +10,21 @@ This phase solves two problems that have been quietly accumulating since phase 1
 
 > New here? Start with the [project README](../README.md) and work forward from [phase 1](../phase-1-foundation/).
 
-## Part 1 — `CLAUDE.md`
+## Part 1 — `AGENTS.md`
 
 Write your project's rules in a file. The agent reads it at startup and prepends it to the system prompt.
 
 ```
  SESSION START
  ┌────────────────────────────────────────────────────────┐
- │ memory/claude_md.py                                    │
- │   walk up: ./CLAUDE.md, ../CLAUDE.md, … up to /        │
- │   then   : ~/.claude/CLAUDE.md                         │
+ │ memory/agents_md.py                                    │
+ │   walk up: ./AGENTS.md, ../AGENTS.md, … up to /        │
+ │   then   : ~/.agent/AGENTS.md                          │
  │   concatenate, nearest first, each with a header       │
  └───────────────────────┬────────────────────────────────┘
                          │
                          ▼
-        system_prompt = SYSTEM_PROMPT + "\n\n" + claude_md
+        system_prompt = SYSTEM_PROMPT + "\n\n" + agents_md
                          │
                          ▼
         ┌────────────────────────────────────────┐
@@ -34,14 +34,14 @@ Write your project's rules in a file. The agent reads it at startup and prepends
         └────────────────────────────────────────┘
 ```
 
-Three scopes are searched: your project directory, every parent directory up to the filesystem root, and a user-global `~/.claude/CLAUDE.md`. All of them apply, concatenated nearest-first.
+Three scopes are searched: your project directory, every parent directory up to the filesystem root, and a user-global `~/.agent/AGENTS.md`. All of them apply, concatenated nearest-first.
 
 **Nearest-first is a convention, not a rule.** Nothing resolves contradictions between two files. If a parent directory says "use tabs" and your project says "use spaces," the model decides based on ordering and wording. Hard precedence is something you would have to build.
 
 Because it lives in the system prompt and not in `messages`, two things follow:
 
 - **`/clear` does not erase your project rules.** This is exactly why phase 1 kept the system prompt out of the message list.
-- **There is no file watcher.** Edit `CLAUDE.md` and you must restart the agent. Deliberate simplicity, but worth knowing before you wonder why your change did nothing.
+- **There is no file watcher.** Edit `AGENTS.md` and you must restart the agent. Deliberate simplicity, but worth knowing before you wonder why your change did nothing.
 
 ## Part 2 — three layers of compression
 
@@ -150,7 +150,7 @@ Two details that matter:
 
 ```bash
 mkdir -p /tmp/agent-demo4 && cd /tmp/agent-demo4
-printf '# Project rules\n\n- Always use snake_case for function names.\n- Use logging, not print.\n' > CLAUDE.md
+printf '# Project rules\n\n- Always use snake_case for function names.\n- Use logging, not print.\n' > AGENTS.md
 PYTHONPATH=/path/to/phase-4-smart-context \
   /path/to/phase-4-smart-context/venv/bin/python -m agent.cli
 ```
@@ -159,15 +159,15 @@ PYTHONPATH=/path/to/phase-4-smart-context \
 
 | Type this | What you should see |
 |---|---|
-| *(at startup)* | `Loaded CLAUDE.md project instructions.` |
+| *(at startup)* | `Loaded AGENTS.md project instructions.` |
 | `write a python function that logs a message` | it uses `logging` and `snake_case` — **rules you never typed this session** |
 | `/tokens` | `Estimated tokens: ~210` |
 | `/debug` | 4 rows: `user / assistant / tool / assistant` |
 | `/compact` | `Context compressed.` (pauses — this one calls the model) |
 | `/debug` again | **2 rows**: the summary and the acknowledgement |
 | `/tokens` again | a smaller number |
-| `/inspect` | the system message now contains your `CLAUDE.md` — proof it's injected on *every* call |
-| edit `CLAUDE.md`, ask again | no change until you restart — no file watcher |
+| `/inspect` | the system message now contains your `AGENTS.md` — proof it's injected on *every* call |
+| edit `AGENTS.md`, ask again | no change until you restart — no file watcher |
 
 **To watch Layer 1 work:** run four or more tool calls (`list all files`, `read X`, `search for def`, `list all py files`), then `/debug`. The oldest tool rows will read `[Previous tool result — see context above]` while the last three keep their content.
 
@@ -181,4 +181,4 @@ PYTHONPATH=/path/to/phase-4-smart-context \
 
 ## What's missing
 
-`CLAUDE.md` has the same problem it solved: it grows. Every rule you add costs tokens on every call, forever, whether or not it's relevant to what you're doing right now. The next phase splits that into two layers — always-loaded names, on-demand bodies — which is what skills are.
+`AGENTS.md` has the same problem it solved: it grows. Every rule you add costs tokens on every call, forever, whether or not it's relevant to what you're doing right now. The next phase splits that into two layers — always-loaded names, on-demand bodies — which is what skills are.
