@@ -26,7 +26,7 @@ graph TD
             TReg["registry.py"]
         end
         subgraph MemoryGroup["Memory"]
-            ClaudeMD["claude_md.py"]
+            AgentsMD["agents_md.py"]
             Compress["compression.py"]
         end
         subgraph PlanGroup["Planning"]
@@ -66,7 +66,7 @@ graph TD
     Loop --> Tasks
     Loop --> BG
     BG --> Sub
-    CLI --> ClaudeMD
+    CLI --> AgentsMD
     CLI --> Skills
     CLI --> Team
     CLI --> WT
@@ -84,7 +84,7 @@ graph TD
 
     class CLI,Config,Stream,Base,Ollama,PReg phase12
     class Loop,Bash,Safety,TReg phase12
-    class Files,ClaudeMD,Compress phase34
+    class Files,AgentsMD,Compress phase34
     class Tasks,Skills phase56
     class Sub,BG phase78
     class Team phase910
@@ -168,7 +168,7 @@ timeline
         : Adds read_file, write_file, edit_file, list_files, search_files
 
     Phase 4 - Smart Context (7 tools)
-        : CLAUDE.md project instructions
+        : AGENTS.md project instructions
         : 3-layer compression
         : Adds compact
 
@@ -274,11 +274,11 @@ graph LR
 
 ### Phase 4: Smart Context (7 tools)
 
-Project instructions via CLAUDE.md and three-layer compression to keep context manageable.
+Project instructions via AGENTS.md and three-layer compression to keep context manageable.
 
 ```mermaid
 graph LR
-    CMD["CLAUDE.md"] --> SysPrompt["System Prompt"]
+    CMD["AGENTS.md"] --> SysPrompt["System Prompt"]
 
     subgraph Compression["3-Layer Compression"]
         L1["Layer 1: Micro<br/>Trim old tool results<br/>Every turn"]
