@@ -128,10 +128,22 @@ That's a policy smuggled into a type declaration, and it's how you steer tool se
 
 `WORKSPACE` is your current directory, so run the agent from a scratch folder — not from this repo — unless you want it writing here.
 
+**One-time setup** (the virtualenv is not checked in):
+
+```bash
+REPO=$(pwd)          # run this from the repository root
+cd $REPO/phase-3-file-tools
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+Then, because the agent sandboxes file operations to the directory you launch it from,
+run it from a scratch folder rather than inside this repo:
+
 ```bash
 mkdir -p /tmp/agent-demo-3 && cd /tmp/agent-demo-3
-PYTHONPATH=/path/to/phase-3-file-tools \
-  /path/to/phase-3-file-tools/venv/bin/python -m agent.cli
+PYTHONPATH=$REPO/phase-3-file-tools \
+  $REPO/phase-3-file-tools/venv/bin/python -m agent.cli
 ```
 
 ### Try this

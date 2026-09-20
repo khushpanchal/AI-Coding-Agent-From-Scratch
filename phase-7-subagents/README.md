@@ -125,10 +125,22 @@ Three phases, three ways of spending the same budget:
 
 ## Run it
 
+**One-time setup** (the virtualenv is not checked in):
+
+```bash
+REPO=$(pwd)          # run this from the repository root
+cd $REPO/phase-7-subagents
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+Then, because the agent sandboxes file operations to the directory you launch it from,
+run it from a scratch folder rather than inside this repo:
+
 ```bash
 mkdir -p /tmp/agent-demo-7 && cd /tmp/agent-demo-7
-PYTHONPATH=/path/to/phase-7-subagents \
-  /path/to/phase-7-subagents/venv/bin/python -m agent.cli
+PYTHONPATH=$REPO/phase-7-subagents \
+  $REPO/phase-7-subagents/venv/bin/python -m agent.cli
 ```
 
 | Type this | What to watch for |

@@ -109,11 +109,23 @@ launchctl setenv OLLAMA_NUM_PARALLEL 2   # macOS; then restart the Ollama app
 # or: OLLAMA_NUM_PARALLEL=2 ollama serve
 ```
 
+**One-time setup** (the virtualenv is not checked in):
+
+```bash
+REPO=$(pwd)          # run this from the repository root
+cd $REPO/phase-10-autonomous
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+Then, because the agent sandboxes file operations to the directory you launch it from,
+run it from a scratch folder rather than inside this repo:
+
 ```bash
 mkdir -p /tmp/agent-demo-10 && cd /tmp/agent-demo-10
 
-PYTHONPATH=/path/to/phase-10-autonomous \
-  /path/to/phase-10-autonomous/venv/bin/python -m agent.cli
+PYTHONPATH=$REPO/phase-10-autonomous \
+  $REPO/phase-10-autonomous/venv/bin/python -m agent.cli
 ```
 
 | Type this | What to watch for |

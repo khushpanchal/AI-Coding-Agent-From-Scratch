@@ -148,11 +148,23 @@ Two details that matter:
 
 ## Run it
 
+**One-time setup** (the virtualenv is not checked in):
+
+```bash
+REPO=$(pwd)          # run this from the repository root
+cd $REPO/phase-4-smart-context
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+Then, because the agent sandboxes file operations to the directory you launch it from,
+run it from a scratch folder rather than inside this repo:
+
 ```bash
 mkdir -p /tmp/agent-demo-4 && cd /tmp/agent-demo-4
 printf '# Project rules\n\n- Always use snake_case for function names.\n- Use logging, not print.\n' > AGENTS.md
-PYTHONPATH=/path/to/phase-4-smart-context \
-  /path/to/phase-4-smart-context/venv/bin/python -m agent.cli
+PYTHONPATH=$REPO/phase-4-smart-context \
+  $REPO/phase-4-smart-context/venv/bin/python -m agent.cli
 ```
 
 ### Try this

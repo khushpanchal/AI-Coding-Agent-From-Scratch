@@ -96,14 +96,26 @@ Two different answers to "where am I," which is fine until something moves.
 
 **This phase needs a git repository with at least one commit.** That's the setup step:
 
+**One-time setup** (the virtualenv is not checked in):
+
+```bash
+REPO=$(pwd)          # run this from the repository root
+cd $REPO/phase-11-isolation
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+Then, because the agent sandboxes file operations to the directory you launch it from,
+run it from a scratch folder rather than inside this repo:
+
 ```bash
 mkdir -p /tmp/agent-demo-11 && cd /tmp/agent-demo-11
 git init -q
 printf 'def add(a,b):\n    return a+b\n' > calculator.py
 git add -A && git commit -q -m "base"
 
-PYTHONPATH=/path/to/phase-11-isolation \
-  /path/to/phase-11-isolation/venv/bin/python -m agent.cli
+PYTHONPATH=$REPO/phase-11-isolation \
+  $REPO/phase-11-isolation/venv/bin/python -m agent.cli
 ```
 
 | Type this | What to watch for |

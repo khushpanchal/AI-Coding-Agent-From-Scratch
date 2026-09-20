@@ -124,10 +124,22 @@ Persisting it would mean choosing a storage location, a format, and a reconcilia
 
 ## Run it
 
+**One-time setup** (the virtualenv is not checked in):
+
+```bash
+REPO=$(pwd)          # run this from the repository root
+cd $REPO/phase-6-planning
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+Then, because the agent sandboxes file operations to the directory you launch it from,
+run it from a scratch folder rather than inside this repo:
+
 ```bash
 mkdir -p /tmp/agent-demo-6 && cd /tmp/agent-demo-6
-PYTHONPATH=/path/to/phase-6-planning \
-  /path/to/phase-6-planning/venv/bin/python -m agent.cli
+PYTHONPATH=$REPO/phase-6-planning \
+  $REPO/phase-6-planning/venv/bin/python -m agent.cli
 ```
 
 | Type this | What to watch for |

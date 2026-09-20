@@ -120,12 +120,24 @@ That is fine at this scale and worth naming as a limitation: a confused model th
 
 ## Run it
 
+**One-time setup** (the virtualenv is not checked in):
+
+```bash
+REPO=$(pwd)          # run this from the repository root
+cd $REPO/phase-8-background
+python3 -m venv venv
+./venv/bin/pip install -r requirements.txt
+```
+
+Then, because the agent sandboxes file operations to the directory you launch it from,
+run it from a scratch folder rather than inside this repo:
+
 ```bash
 mkdir -p /tmp/agent-demo-8 && cd /tmp/agent-demo-8
 printf 'def add(a,b):\n    return a+b\n' > calc.py
 
-PYTHONPATH=/path/to/phase-8-background \
-  /path/to/phase-8-background/venv/bin/python -m agent.cli
+PYTHONPATH=$REPO/phase-8-background \
+  $REPO/phase-8-background/venv/bin/python -m agent.cli
 ```
 
 | Type this | What to watch for |
