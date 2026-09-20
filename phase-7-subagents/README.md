@@ -142,4 +142,4 @@ The `/debug` row is the phase. Watch a dozen operations happen, then look at the
 
 ## What's missing
 
-The parent **blocks** while the child works. Delegate three investigations and they run one after another, with you watching a frozen prompt. The child loop is already isolated and self-contained — the only thing standing between this and real concurrency is whether the parent waits. That, and giving a child a name it keeps between tasks, is where the next phases go.
+The parent **blocks** while the child works. Delegate three investigations and they run one after another, with you watching a frozen prompt. The child loop is already isolated and self-contained — the only thing standing between this and real concurrency is whether the parent waits. [Phase 8](../phase-8-background/) stops it waiting; phase 9 gives the child a name it keeps between tasks.
