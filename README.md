@@ -54,10 +54,18 @@ Each folder runs on its own and has its own README with the full walkthrough.
 | **5** | [`phase-5-skills`](phase-5-skills/) | Dynamic skill loading | 8 |
 | **6** | [`phase-6-planning`](phase-6-planning/) | Task list with dependencies | 9 |
 | **7** | [`phase-7-subagents`](phase-7-subagents/) | Subagents with isolated context | 10 |
-| **8** | *planned* | Non-blocking background subagents | 12 |
-| **9** | *planned* | Named teammates with memory across tasks | 13 |
-| **10** | *planned* | Teammates pulling from a shared queue | 13 |
-| **11** | *planned* | Git worktree isolation per experiment | 14 |
+| **8** | [`phase-8-background`](phase-8-background/) | Delegate without waiting: a thread, a `quiet` flag, a mailbox | 12 |
+| **9** | [`phase-9-teams`](phase-9-teams/) | Named workers who remember across tasks | 13 |
+| **10** | [`phase-10-autonomous`](phase-10-autonomous/) | Stop assigning — publish a queue, workers pull | 13 |
+| **11** | [`phase-11-isolation`](phase-11-isolation/) | Git worktrees: a folder per experiment | 14 |
+
+Plus one side quest, deliberately off the ladder:
+
+| | Folder | What it is |
+|---|---|---|
+| **Lab** | [`lab-streaming-tool-execution`](lab-streaming-tool-execution/) | A measured benchmark of one production optimization: start running a tool the instant its request finishes streaming, instead of waiting for the model to stop typing. |
+
+Note the tool count goes `0 → 1 → 6 → 7 → 8 → 9 → 10 → 12 → 13 → 13 → 14`. The repeated 13 is not a typo: phase 10 adds no new tool and changes the protocol behind an existing one. **A phase adds a capability, not necessarily a tool.**
 
 Component diagrams and the design of each phase live in [ARCHITECTURE.md](ARCHITECTURE.md).
 
@@ -88,12 +96,19 @@ ollama pull qwen2.5:7b-instruct    # ~4.7 GB
 
 Everything runs locally. No API keys, no per-token cost.
 
+Two phases need a little more:
+
+- **Phases 9 and 10 run several agents at once.** Ollama serialises requests per model by default, so they will queue and look hung. Set `OLLAMA_NUM_PARALLEL=2` first — `launchctl setenv OLLAMA_NUM_PARALLEL 2` on macOS (then restart Ollama), or `OLLAMA_NUM_PARALLEL=2 ollama serve`. RAM scales with parallelism × context length.
+- **Phase 11 needs a git repository with at least one commit** in the directory you run it from.
+
 ```bash
 cd phase-2-agent-loop
 python3 -m venv venv && source venv/bin/activate
 pip install -r requirements.txt
 python -m agent.cli
 ```
+
+Phases are namespace packages with no `__init__.py`, so run them from the phase directory, or set `PYTHONPATH` to it. Note that the agent sandboxes file operations to the directory you launch from — run it in a scratch folder if you don't want it writing into this repo.
 
 Then ask it `what is the time now?` and watch it choose a shell command nobody hardcoded. Type `/inspect` to see every call made to the model — the tool call and its result sitting between two model calls. That's the loop, made visible, and it's the most useful thing here for understanding what's going on.
 
