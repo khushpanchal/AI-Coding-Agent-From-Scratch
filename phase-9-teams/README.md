@@ -120,7 +120,7 @@ launchctl setenv OLLAMA_NUM_PARALLEL 2   # macOS; then restart the Ollama app
 Ollama serialises requests per model by default. With parallelism at 1, Sam and Ria **queue** — you'll sit between `[Sam] working` and `[Sam] ✓` wondering what broke.
 
 ```bash
-mkdir -p /tmp/p9test && cd /tmp/p9test
+mkdir -p /tmp/agent-demo-9 && cd /tmp/agent-demo-9
 
 PYTHONPATH=/path/to/phase-9-teams \
   /path/to/phase-9-teams/venv/bin/python -m agent.cli

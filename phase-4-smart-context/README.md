@@ -149,7 +149,7 @@ Two details that matter:
 ## Run it
 
 ```bash
-mkdir -p /tmp/agent-demo4 && cd /tmp/agent-demo4
+mkdir -p /tmp/agent-demo-4 && cd /tmp/agent-demo-4
 printf '# Project rules\n\n- Always use snake_case for function names.\n- Use logging, not print.\n' > AGENTS.md
 PYTHONPATH=/path/to/phase-4-smart-context \
   /path/to/phase-4-smart-context/venv/bin/python -m agent.cli

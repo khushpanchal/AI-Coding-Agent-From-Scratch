@@ -110,7 +110,7 @@ launchctl setenv OLLAMA_NUM_PARALLEL 2   # macOS; then restart the Ollama app
 ```
 
 ```bash
-mkdir -p /tmp/p10test && cd /tmp/p10test
+mkdir -p /tmp/agent-demo-10 && cd /tmp/agent-demo-10
 
 PYTHONPATH=/path/to/phase-10-autonomous \
   /path/to/phase-10-autonomous/venv/bin/python -m agent.cli

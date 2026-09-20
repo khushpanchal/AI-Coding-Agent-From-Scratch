@@ -148,7 +148,7 @@ This ships as-is, and it's worth understanding rather than patching over: the cl
 ## Run it
 
 ```bash
-mkdir -p /tmp/agent-demo5 && cd /tmp/agent-demo5
+mkdir -p /tmp/agent-demo-5 && cd /tmp/agent-demo-5
 PYTHONPATH=/path/to/phase-5-skills \
   /path/to/phase-5-skills/venv/bin/python -m agent.cli
 ```

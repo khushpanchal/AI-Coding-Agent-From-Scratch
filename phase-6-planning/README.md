@@ -125,7 +125,7 @@ Persisting it would mean choosing a storage location, a format, and a reconcilia
 ## Run it
 
 ```bash
-mkdir -p /tmp/agent-demo6 && cd /tmp/agent-demo6
+mkdir -p /tmp/agent-demo-6 && cd /tmp/agent-demo-6
 PYTHONPATH=/path/to/phase-6-planning \
   /path/to/phase-6-planning/venv/bin/python -m agent.cli
 ```

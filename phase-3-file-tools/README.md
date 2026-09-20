@@ -129,7 +129,7 @@ That's a policy smuggled into a type declaration, and it's how you steer tool se
 `WORKSPACE` is your current directory, so run the agent from a scratch folder — not from this repo — unless you want it writing here.
 
 ```bash
-mkdir -p /tmp/agent-demo && cd /tmp/agent-demo
+mkdir -p /tmp/agent-demo-3 && cd /tmp/agent-demo-3
 PYTHONPATH=/path/to/phase-3-file-tools \
   /path/to/phase-3-file-tools/venv/bin/python -m agent.cli
 ```

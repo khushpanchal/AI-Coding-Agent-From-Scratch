@@ -41,6 +41,87 @@ Two things that surprise most engineers, both covered in depth in the phase wher
 - **The model is stateless; memory is something you build.** A conversation feels continuous only because you re-send the entire history every call. It's one Python list. → [Phase 1](phase-1-foundation/)
 - **The model never executes anything — your code does.** It emits a request; you decide whether to honor it. Every security property lives on your side. → [Phase 2](phase-2-agent-loop/)
 
+## How a request flows, end to end
+
+You type *"read calculator.py and fix the divide-by-zero bug"*. Here is everything that happens, and where each phase plugs in.
+
+**Before you type anything**, startup builds seven objects and one list:
+
+```
+  provider   which model, and the only code that knows a vendor exists   [p1]
+  skills     scans skills/*/SKILL.md — names and descriptions only       [p5]
+  tasks      an empty task board                                         [p6]
+  background an empty mailbox                                            [p8]
+  team       an empty roster                                             [p9]
+  worktrees  a git worktree manager                                     [p11]
+  tools      14 tools, each a schema + a handler                      [p2-11]
+
+  system_prompt = base + skill index + AGENTS.md        one string    [p4,p5]
+                  ^ a SEPARATE argument on every call, never stored
+  messages = []                    <-- THE ONLY MEMORY IN THE SYSTEM      [p1]
+```
+
+**Then the turn runs:**
+
+```
+  YOU: "read calculator.py and fix the divide-by-zero bug"
+       |
+       v  cli.py appends {"role": "user", ...} to messages
+  +--------------------------------------------------------------+
+  |                    ITERATION 1                                |
+  |                                                               |
+  |  PRE-CALL PIPELINE (runs before every model call)             |
+  |    micro_compact      blank tool results older than 3    [p4] |
+  |    auto_compact?      summarise if the history is huge   [p4] |
+  |    drain mailbox      any finished background work?      [p8] |
+  |    task tick          nag if a task has gone stale       [p6] |
+  |                        |                                      |
+  |                        v                                      |
+  |  CALL THE MODEL with three SEPARATE arguments:                |
+  |    messages  the conversation                                 |
+  |    system    base + skills + AGENTS.md                        |
+  |    tools     14 schemas                                       |
+  |                        |                                      |
+  |                        v                                      |
+  |  MODEL: "I want read_file(calculator.py)"                     |
+  |         (it only ASKS -- it never executes anything)          |
+  |                        |                                      |
+  |                        v                                      |
+  |  YOUR CODE runs it:                                           |
+  |    registry validates the arguments against the schema   [p2] |
+  |    safe_path() keeps it inside the workspace             [p3] |
+  |    read the file, truncate if huge                       [p3] |
+  |                        |                                      |
+  |                        v                                      |
+  |  append {"role": "tool", "content": "1  def add..."}          |
+  +---------------------------- loop back ------------------------+
+       |
+       v
+  ITERATION 2   model now SEES the file -> asks for edit_file
+                edit applied (or an error message it can act on)
+       |
+       v
+  ITERATION 3   model replies with PLAIN TEXT, no tool calls
+                -> the loop RETURNS. This is the only exit.
+```
+
+**The loop exits when the model stops asking for tools** — not when the task is verified correct. Nothing checks the fix.
+
+If the request were bigger, the model would reach for different tools, and each one attaches at the same single seam:
+
+```
+  "review this properly"        -> load_skill    body arrives as a tool result   [p5]
+  "do this in 5 steps"          -> task          state lives outside messages    [p6]
+  "find every caller of X"      -> subagent      a child loop; only the summary
+                                                 comes back                      [p7]
+  "audit while I keep working"  -> background_run returns instantly; the result
+                                                 arrives via the mailbox         [p8]
+  "hire two devs, build these"  -> team          named workers who remember   [p9,p10]
+  "try two approaches"          -> worktree      a second real directory        [p11]
+```
+
+Every one of those is one `register(schema, handler)` call. **The loop never learned any of them exist.**
+
 ## Phases
 
 Each folder runs on its own and has its own README with the full walkthrough.

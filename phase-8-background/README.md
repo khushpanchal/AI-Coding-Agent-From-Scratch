@@ -18,7 +18,7 @@ Phase 7's subagent worked, but it **blocked**. Delegate three investigations and
                                         through a mailbox
 ```
 
-Everything hard about this was already solved in phase 7 — isolation, privilege, the summary filter. What's left is genuinely small, and the lecture says so: *it can be done easily just by using a thread.*
+Everything hard about this was already solved in phase 7 — isolation, privilege, the summary filter. What's left is genuinely small: it is one thread.
 
 But two things follow from that thread, and they're the real content of this phase.
 
@@ -107,7 +107,7 @@ Three details, each deliberate:
 
 One `threading.Thread(daemon=True)` per call. **No pool, no cap.** Daemon means the process can exit with children still running.
 
-That's appropriate for a teaching codebase and worth naming as a limitation: a confused model that calls `background_run` in a loop spawns unbounded threads. The lecture names the production answer — a thread pool with an executor framework on top — and the [streaming lab](../lab-streaming-tool-execution/) is where a `ThreadPoolExecutor` actually appears.
+That is fine at this scale and worth naming as a limitation: a confused model that calls `background_run` in a loop spawns unbounded threads. The production answer is a thread pool with an executor on top, and the [streaming lab](../lab-streaming-tool-execution/) is where a `ThreadPoolExecutor` actually appears.
 
 ## Two tools, not one
 
@@ -121,7 +121,7 @@ That's appropriate for a teaching codebase and worth naming as a limitation: a c
 ## Run it
 
 ```bash
-mkdir -p /tmp/p8test && cd /tmp/p8test
+mkdir -p /tmp/agent-demo-8 && cd /tmp/agent-demo-8
 printf 'def add(a,b):\n    return a+b\n' > calc.py
 
 PYTHONPATH=/path/to/phase-8-background \

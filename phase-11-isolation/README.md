@@ -20,7 +20,7 @@ Four phases of concurrency work gave every worker its own `messages`, its own to
 
 Phase 10's demo was safe by luck: four tasks that happened to write four different filenames. Point two workers at the same module and they'll clobber each other with no warning and no error.
 
-There's a second motivation, and it's the one the lecture leads with: **comparing two implementations.** You want approach A and approach B side by side, both on disk, both runnable, at the same time. Git branches can't do that — one working tree, one branch checked out. Git *worktrees* can.
+There is a second motivation, and it may be the more compelling one: **comparing two implementations.** You want approach A and approach B side by side, both on disk, both runnable, at the same time. Git branches can't do that — one working tree, one branch checked out. Git *worktrees* can.
 
 ## What a worktree actually is
 
@@ -97,7 +97,7 @@ Two different answers to "where am I," which is fine until something moves.
 **This phase needs a git repository with at least one commit.** That's the setup step:
 
 ```bash
-mkdir -p /tmp/p11test && cd /tmp/p11test
+mkdir -p /tmp/agent-demo-11 && cd /tmp/agent-demo-11
 git init -q
 printf 'def add(a,b):\n    return a+b\n' > calculator.py
 git add -A && git commit -q -m "base"

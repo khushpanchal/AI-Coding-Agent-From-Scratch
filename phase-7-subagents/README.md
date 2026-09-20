@@ -126,7 +126,7 @@ Three phases, three ways of spending the same budget:
 ## Run it
 
 ```bash
-mkdir -p /tmp/agent-demo7 && cd /tmp/agent-demo7
+mkdir -p /tmp/agent-demo-7 && cd /tmp/agent-demo-7
 PYTHONPATH=/path/to/phase-7-subagents \
   /path/to/phase-7-subagents/venv/bin/python -m agent.cli
 ```
